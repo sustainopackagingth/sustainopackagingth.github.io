@@ -23,6 +23,14 @@
       const footer=document.querySelector('footer');(footer?footer.parentNode:document.body).insertBefore(block,footer||null);
       block.querySelector('form').addEventListener('submit',e=>{e.preventDefault();window.open('https://line.me/R/ti/p/@879ftbvg','_blank','noopener')});
     }
+    if(document.querySelector('[data-enquiry-item]')){
+      const basketStyle=document.createElement('style');basketStyle.textContent='.sustaino-basket{position:fixed;z-index:120;right:24px;bottom:24px;background:#173c28;color:#fff;padding:14px 16px;display:flex;align-items:center;gap:14px;box-shadow:0 18px 35px #173c283d;font:700 10px Arial,sans-serif;letter-spacing:.12em}.sustaino-basket button{border:1px solid #dce1c6;background:#dce1c6;color:#173c28;padding:10px 12px;font:700 9px Arial,sans-serif;letter-spacing:.12em;cursor:pointer}.add-enquiry{display:inline-flex;align-items:center;margin-top:17px;border:1px solid #173c28;background:transparent;color:#173c28;padding:11px 13px;font:700 10px Arial,sans-serif;letter-spacing:.12em;cursor:pointer}.add-enquiry.added{background:#173c28;color:#fff}@media(max-width:700px){.sustaino-basket{left:16px;right:16px;bottom:14px;justify-content:space-between}}';document.head.appendChild(basketStyle);
+      const key='sustaino-enquiry-items';let items=[];try{items=JSON.parse(sessionStorage.getItem(key)||'[]')}catch(e){};
+      const bar=document.createElement('div');bar.className='sustaino-basket';document.body.appendChild(bar);
+      const render=()=>{bar.innerHTML='<span>'+items.length+' ITEM'+(items.length===1?'':'S')+' IN ENQUIRY</span><button type="button">SEND ENQUIRY →</button>';bar.querySelector('button').onclick=()=>document.querySelector('.sustaino-contact')?.scrollIntoView({behavior:'smooth',block:'start'})};
+      render();document.querySelectorAll('[data-enquiry-item]').forEach(btn=>{const item=btn.dataset.enquiryItem;if(items.includes(item)){btn.classList.add('added');btn.textContent='ADDED TO ENQUIRY ✓'}btn.addEventListener('click',()=>{if(!items.includes(item)){items.push(item);sessionStorage.setItem(key,JSON.stringify(items));btn.classList.add('added');btn.textContent='ADDED TO ENQUIRY ✓';render()}})});
+    }
+
   };
   document.readyState==='loading'?document.addEventListener('DOMContentLoaded',start):start();
 })();
